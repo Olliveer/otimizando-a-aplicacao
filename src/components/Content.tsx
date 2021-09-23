@@ -1,11 +1,4 @@
-import { lazy, memo } from "react";
-import {
-  CellMeasurer,
-  CellMeasurerCache,
-  CellRenderer,
-  createMasonryCellPositioner,
-  Masonry,
-} from "react-virtualized";
+import { memo } from "react";
 import { MovieCard } from "./MovieCard";
 
 interface ContentProps {
@@ -26,37 +19,8 @@ interface ContentProps {
     Runtime: string;
   }>;
 }
-const cache = new CellMeasurerCache({
-  defaultHeight: 900,
-  defaultWidth: 250,
-  fixedWidth: true,
-});
 
-const cellPositioner = createMasonryCellPositioner({
-  cellMeasurerCache: cache,
-  columnCount: 3,
-  columnWidth: 300,
-  spacer: 10,
-});
-
-export function Content({ selectedGenre, movies }: ContentProps) {
-  const cellRenderer: CellRenderer = ({ index, key, parent, style }) => {
-    const movie = movies[index];
-
-    return (
-      <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
-        <div key={key} style={style}>
-          <MovieCard
-            title={movie.Title}
-            poster={movie.Poster}
-            runtime={movie.Runtime}
-            rating={movie.Ratings[0].Value}
-          />
-        </div>
-      </CellMeasurer>
-    );
-  };
-
+function Content({ selectedGenre, movies }: ContentProps) {
   return (
     <div className="container">
       <header>
@@ -67,17 +31,19 @@ export function Content({ selectedGenre, movies }: ContentProps) {
 
       <main>
         <div className="movies-list">
-          <Masonry
-            autoHeight
-            cellCount={movies.length}
-            cellMeasurerCache={cache}
-            cellPositioner={cellPositioner}
-            cellRenderer={cellRenderer}
-            height={15}
-            width={900}
-          />
+          {movies.map((movie) => (
+            <MovieCard
+              key={movie.imdbID}
+              title={movie.Title}
+              poster={movie.Poster}
+              runtime={movie.Runtime}
+              rating={movie.Ratings[0].Value}
+            />
+          ))}
         </div>
       </main>
     </div>
   );
 }
+
+export default memo(Content);

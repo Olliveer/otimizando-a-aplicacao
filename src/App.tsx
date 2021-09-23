@@ -1,7 +1,7 @@
 import React, { useEffect, useState, lazy } from "react";
 
 import { SideBar } from "./components/SideBar";
-import { Content } from "./components/Content";
+import Content from "./components/Content";
 import { api } from "./services/api";
 
 import "./styles/global.scss";
