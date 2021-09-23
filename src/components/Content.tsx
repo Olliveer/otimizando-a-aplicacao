@@ -27,9 +27,9 @@ interface ContentProps {
   }>;
 }
 const cache = new CellMeasurerCache({
-  defaultHeight: 600,
-  defaultWidth: 900,
-  fixedWidth: false,
+  defaultHeight: 900,
+  defaultWidth: 250,
+  fixedWidth: true,
 });
 
 const cellPositioner = createMasonryCellPositioner({
@@ -39,7 +39,7 @@ const cellPositioner = createMasonryCellPositioner({
   spacer: 10,
 });
 
-function ContentComponent({ selectedGenre, movies }: ContentProps) {
+export function Content({ selectedGenre, movies }: ContentProps) {
   const cellRenderer: CellRenderer = ({ index, key, parent, style }) => {
     const movie = movies[index];
 
@@ -73,22 +73,11 @@ function ContentComponent({ selectedGenre, movies }: ContentProps) {
             cellMeasurerCache={cache}
             cellPositioner={cellPositioner}
             cellRenderer={cellRenderer}
-            height={600}
+            height={15}
             width={900}
           />
-          {/* {movies.map((movie) => (
-            <MovieCard
-              key={movie.imdbID}
-              title={movie.Title}
-              poster={movie.Poster}
-              runtime={movie.Runtime}
-              rating={movie.Ratings[0].Value}
-            />
-          ))} */}
         </div>
       </main>
     </div>
   );
 }
-
-export const Content = memo(ContentComponent);
